@@ -12,7 +12,6 @@ public class EventHandler {
 
     private static final Logger log = LoggerFactory.getLogger(EventHandler.class);
 
-
     private final AchievementService achievementService;
 
     public EventHandler(AchievementService achievementService) {
@@ -28,8 +27,7 @@ public class EventHandler {
     void handleAchievementWork(final TimerCountWorkEvent event) {
         log.info("TimerCount Work Event received: {}", event.getTimerCountSessionId());
         try {
-            achievementService.checkIfAchievement(event.getUserId(),
-                    event.getTimerCountSessionId());
+            achievementService.checkIfAchievement(event.getTimerCountSessionId());
         } catch (final Exception e) {
             log.error("Error when trying to process TimerCountWorkEvent", e);
             // The event will not be re-queued and reprocessed repeatedly if

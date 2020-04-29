@@ -3,7 +3,7 @@ package exarb.fmgamificationlogic.event;
 import java.io.Serializable;
 
 /**
- * This is a model for an event that is sent when a user has used the timer.
+ * This is a model for an event that is sent when a user has used the timer for work.
  */
 public class TimerCountWorkEvent implements Serializable {
 
