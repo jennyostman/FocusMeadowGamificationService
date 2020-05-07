@@ -28,6 +28,6 @@ public class TimerResultDeserializer extends JsonDeserializer<TimerResult> {
         JsonNode node = oc.readTree(jsonParser);
 
         return new TimerResult(node.get("userId").asText(),
-                node.get("timeInMillis").asLong());
+                node.get("time").asInt());
     }
 }

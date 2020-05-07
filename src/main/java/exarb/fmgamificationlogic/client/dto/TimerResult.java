@@ -7,16 +7,16 @@ import exarb.fmgamificationlogic.client.TimerResultDeserializer;
 public class TimerResult {
 
     private String userId;
-    private Long timeInMillis;
+    private int time;
 
-    public TimerResult(String userId, Long timeInMillis) {
+    public TimerResult(String userId, int time) {
         this.userId = userId;
-        this.timeInMillis = timeInMillis;
+        this.time = time;
     }
 
     public TimerResult() {
         this.userId = null;
-        this.timeInMillis = -1L;
+        this.time = -1;
     }
 
     public String getUserId() {
@@ -27,19 +27,19 @@ public class TimerResult {
         this.userId = userId;
     }
 
-    public Long getTimeInMillis() {
-        return timeInMillis;
+    public int getTime() {
+        return time;
     }
 
-    public void setTimeInMillis(Long timeInMillis) {
-        this.timeInMillis = timeInMillis;
+    public void setTime(int time) {
+        this.time = time;
     }
 
     @Override
     public String toString() {
         return "TimerResult{" +
                 "userId='" + userId + '\'' +
-                ", timeInMillis=" + timeInMillis +
+                ", time=" + time +
                 '}';
     }
 }

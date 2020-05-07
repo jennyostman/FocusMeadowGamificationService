@@ -13,7 +13,7 @@ public class TimerResultClient {
     private final String gameLogicHost;
 
     @Autowired
-    public TimerResultClient(RestTemplate restTemplate, @Value("http://localhost:8085") final String gameLogicHost) {
+    public TimerResultClient(RestTemplate restTemplate, @Value("${gamelogicHost}") final String gameLogicHost) {
         this.restTemplate = restTemplate;
         this.gameLogicHost = gameLogicHost;
     }
@@ -23,9 +23,10 @@ public class TimerResultClient {
      * @param id
      * @return
      */
+
     public TimerResult retrieveTimerResultById(final String id) {
         return restTemplate.getForObject(
-                gameLogicHost + "/timer/result/" + id,
+                gameLogicHost + "/result/" + id,
                 TimerResult.class);
     }
 
