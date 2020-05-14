@@ -1,34 +1,16 @@
 package exarb.fmgamificationlogic.model;
 
-import org.springframework.data.mongodb.core.mapping.Document;
+import exarb.fmgamificationlogic.enums.AchievementType;
+import lombok.Data;
 
-@Document(collection = "acheivements")
+
+@Data
 public class Achievement {
 
-    private String id;
+    private String image;
     private String name;
+    private AchievementType achievementType;
+    private String description;
 
-    public Achievement(String id, String name) {
-        this.id = id;
-        this.name = name;
-    }
 
-    public Achievement() {
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 }

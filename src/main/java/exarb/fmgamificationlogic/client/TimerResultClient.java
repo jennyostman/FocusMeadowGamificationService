@@ -20,10 +20,9 @@ public class TimerResultClient {
 
     /**
      * Makes a GET call to the gamelogic-service to fetch TimerResult data for a specific id
-     * @param id
-     * @return
+     * @param id an id for a timer session
+     * @return TimerResult
      */
-
     public TimerResult retrieveTimerResultById(final String id) {
         return restTemplate.getForObject(
                 gameLogicHost + "/result/" + id,
