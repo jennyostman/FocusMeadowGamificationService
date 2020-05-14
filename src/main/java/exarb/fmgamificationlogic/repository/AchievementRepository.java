@@ -1,11 +1,11 @@
 package exarb.fmgamificationlogic.repository;
 
+import exarb.fmgamificationlogic.model.AllAvailableAchievements;
 import org.springframework.data.mongodb.repository.MongoRepository;
-import exarb.fmgamificationlogic.model.Achievement;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface AchievementRepository extends MongoRepository<Achievement, String> {
+public interface AchievementRepository extends MongoRepository<AllAvailableAchievements, String> {
     
 }
 
