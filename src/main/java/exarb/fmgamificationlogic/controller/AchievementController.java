@@ -33,7 +33,7 @@ public class AchievementController {
      * Gets all achievements
      * @return Map<AchievementType, Achievement>
      */
-    @GetMapping(value = "all")
+    @GetMapping(value = "/all")
     public ResponseEntity<Map<AchievementType, Achievement>> getAllAchievements(){
         return ResponseEntity.ok().body(achievementService.getAllAchievements());
     }
