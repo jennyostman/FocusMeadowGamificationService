@@ -17,20 +17,14 @@ import java.util.HashMap;
 public class AchievementsUtility {
 
     public UserAchievementData createUserAchievementDataForNewUser(TimerResult timerResult){
-
         UserAchievementData userAchievementData = new UserAchievementData(
                 timerResult.getUserId(),
                 new ArrayList<>(),
                 timerResult.getTime(),
                 new HashMap<>());
-
         userAchievementData.getAchievedAchievements().add(AchievementType.ROOKIE_SOWER);
         userAchievementData.getTimerSessionResults().put(LocalDate.now(), timerResult.getTime());
-
-        // Skicka event message
-
         return userAchievementData;
-
     }
 
 

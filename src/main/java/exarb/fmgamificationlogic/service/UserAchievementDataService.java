@@ -4,6 +4,8 @@ import exarb.fmgamificationlogic.client.TimerResultClient;
 import exarb.fmgamificationlogic.client.UserGameDataClient;
 import exarb.fmgamificationlogic.client.dto.TimerResult;
 import exarb.fmgamificationlogic.client.dto.UserGameData;
+import exarb.fmgamificationlogic.event.AchievementDispatcher;
+import exarb.fmgamificationlogic.event.AchievementEvent;
 import exarb.fmgamificationlogic.exceptions.AchievementException;
 import exarb.fmgamificationlogic.model.UserAchievementData;
 import exarb.fmgamificationlogic.repository.UserAchievementDataRepository;
@@ -24,6 +26,7 @@ public class UserAchievementDataService {
     private final AchievementsUtility achievementsUtility;
     private final TimerResultClient timerResultClient;
     private final UserGameDataClient userGameDataClient;
+    private final AchievementDispatcher achievementDispatcher;
 
 
     public UserAchievementData getAchievementsForUser(String userId){
@@ -61,6 +64,17 @@ public class UserAchievementDataService {
         UserAchievementData userAchievementData = achievementsUtility.createUserAchievementDataForNewUser(timerResult);
         log.info("New UserAchievementData object is saved for user {}", timerResult.getUserId());
         userAchievementDataRepository.save(userAchievementData);
+
+        // TODO: rensa!
+
+        AchievementEvent achievementEvent = new AchievementEvent();
+        achievementEvent.setUserAchievementDataId(userAchievementData.getId());
+        System.out.println("userAchievementData.getId(): " + userAchievementData.getId());
+
+        // Skicka event message
+        achievementDispatcher.sendAchievementEvent(achievementEvent);
+
+
     }
 
     private void updateUserAchievementDataForUser(TimerResult timerResult, UserGameData userGameData){

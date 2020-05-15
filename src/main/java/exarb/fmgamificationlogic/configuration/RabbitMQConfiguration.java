@@ -5,7 +5,10 @@ import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.annotation.RabbitListenerConfigurer;
+import org.springframework.amqp.rabbit.connection.ConnectionFactory;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.rabbit.listener.RabbitListenerEndpointRegistrar;
+import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,13 +19,50 @@ import org.springframework.messaging.handler.annotation.support.DefaultMessageHa
 @Configuration
 public class RabbitMQConfiguration implements RabbitListenerConfigurer {
 
+    // Skicka:
+
     /**
      * Creates a topic exchange bean.
      * @return TopicExchange
      */
     @Bean
-    public TopicExchange timerCountExchange(@Value("${timerCount.exchange}") final String exchangeName) {
-        return new TopicExchange(exchangeName);
+    public TopicExchange achievementExchange(@Value("${achievement.exchange}") final String achievementExchange) {
+        return new TopicExchange(achievementExchange);
+    }
+
+    /**
+     * The default RabbitTemplate is overridden and replaced so
+     * that it uses the JSON message converter
+     * @param connectionFactory
+     * @return RabbitTemplate
+     */
+    @Bean
+    public RabbitTemplate rabbitTemplate(final ConnectionFactory connectionFactory) {
+        final RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
+        rabbitTemplate.setMessageConverter(producerJackson2MessageConverter());
+        return rabbitTemplate;
+    }
+
+    /**
+     * Serializes a java object to JSON
+     * @return Jackson2JsonMessageConverter
+     */
+    @Bean
+    public Jackson2JsonMessageConverter producerJackson2MessageConverter() {
+        return new Jackson2JsonMessageConverter();
+    }
+
+
+
+    // Ta emot:
+
+    /**
+     * Creates a topic exchange bean.
+     * @return TopicExchange
+     */
+    @Bean
+    public TopicExchange timerCountExchange(@Value("${timerCount.exchange}") final String timerCountExchange) {
+        return new TopicExchange(timerCountExchange);
     }
 
     /**
@@ -41,14 +81,14 @@ public class RabbitMQConfiguration implements RabbitListenerConfigurer {
     /**
      * Binds the topic exchange and the queue together.
      * @param queue
-     * @param exchange
+     * @param timerCountExchange
      * @param routingKey
      * @return
      */
     @Bean
-    Binding binding(final Queue queue, final TopicExchange exchange,
+    Binding binding(final Queue queue, final TopicExchange timerCountExchange,
                     @Value("${timerCount.anything.routing-key}") final String routingKey) {
-        return BindingBuilder.bind(queue).to(exchange).with(routingKey);
+        return BindingBuilder.bind(queue).to(timerCountExchange).with(routingKey);
     }
 
     /**
@@ -75,11 +115,9 @@ public class RabbitMQConfiguration implements RabbitListenerConfigurer {
      * Registering a RabbitListenerEndpoint that will use a customized MessageHandlerMethodFactory
      * @param registrar
      */
-    // RabbitListenerEndpointRegistrar: Helper bean for registering RabbitListenerEndpoint
     @Override
     public void configureRabbitListeners(final RabbitListenerEndpointRegistrar registrar) {
         registrar.setMessageHandlerMethodFactory(messageHandlerMethodFactory());
     }
-
 
 }
