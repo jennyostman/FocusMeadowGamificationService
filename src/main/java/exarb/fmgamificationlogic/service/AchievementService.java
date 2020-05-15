@@ -1,12 +1,16 @@
 package exarb.fmgamificationlogic.service;
 
 import exarb.fmgamificationlogic.client.TimerResultClient;
+import exarb.fmgamificationlogic.client.UserGameDataClient;
 import exarb.fmgamificationlogic.client.dto.TimerResult;
+import exarb.fmgamificationlogic.client.dto.UserGameData;
 import exarb.fmgamificationlogic.enums.AchievementType;
 import exarb.fmgamificationlogic.exceptions.AchievementException;
 import exarb.fmgamificationlogic.model.Achievement;
 import exarb.fmgamificationlogic.model.AllAvailableAchievements;
+import exarb.fmgamificationlogic.model.UserAchievementData;
 import exarb.fmgamificationlogic.repository.AchievementRepository;
+import exarb.fmgamificationlogic.utility.AchievementsUtility;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -21,6 +25,8 @@ public class AchievementService {
 
     private final AchievementRepository achievementRepository;
     private final TimerResultClient timerResultClient;
+    private final UserGameDataClient userGameDataClient;
+    private final AchievementsUtility achievementsUtility;
 
 
     /**
@@ -43,7 +49,7 @@ public class AchievementService {
     }
 
     /**
-     * Gets the object that holds all achievements
+     * Retrieves the object that holds all achievements
      * @return AllAvailableAchievements
      */
     private AllAvailableAchievements getFirstAllAvailableAchievements(){
@@ -55,17 +61,5 @@ public class AchievementService {
         throw new AchievementException("Could not find all achievements");
     }
 
-    /**
-     * Method that checks if a user will get an achievement.
-     * @param timerCountSessionId an id for a timer session
-     */
-    // TODO: Hur mycket ska stå i javadocs här egentligen?
-    public void checkIfAchievement(String timerCountSessionId){
-        TimerResult timerResult = timerResultClient.retrieveTimerResultById(timerCountSessionId);
-        System.out.println("timerResult: " + timerResult);
-
-        // Acheivement-logik här
-
-    }
 
 }
