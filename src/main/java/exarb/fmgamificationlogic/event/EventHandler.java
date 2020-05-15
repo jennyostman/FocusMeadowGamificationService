@@ -1,6 +1,6 @@
 package exarb.fmgamificationlogic.event;
 
-import exarb.fmgamificationlogic.service.AchievementService;
+import exarb.fmgamificationlogic.service.UserAchievementDataService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.AmqpRejectAndDontRequeueException;
@@ -12,11 +12,12 @@ public class EventHandler {
 
     private static final Logger log = LoggerFactory.getLogger(EventHandler.class);
 
-    private final AchievementService achievementService;
+    private final UserAchievementDataService userAchievementDataService;
 
-    public EventHandler(AchievementService achievementService) {
-        this.achievementService = achievementService;
+    public EventHandler(UserAchievementDataService userAchievementDataService) {
+        this.userAchievementDataService = userAchievementDataService;
     }
+
 
     /**
      * Listens to the timerCount queue, and calls a method in achievementService,
@@ -27,7 +28,7 @@ public class EventHandler {
     void handleAchievementWork(final TimerCountWorkEvent event) {
         log.info("TimerCount Work Event received: {}", event.getTimerCountSessionId());
         try {
-            achievementService.checkIfAchievement(event.getTimerCountSessionId());
+            userAchievementDataService.checkIfAchievement(event.getTimerCountSessionId(), event.getUserId());
         } catch (final Exception e) {
             log.error("Error when trying to process TimerCountWorkEvent", e);
             // The event will not be re-queued and reprocessed repeatedly if
