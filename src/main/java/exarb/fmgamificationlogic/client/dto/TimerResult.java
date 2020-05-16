@@ -3,6 +3,9 @@ package exarb.fmgamificationlogic.client.dto;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import exarb.fmgamificationlogic.client.TimerResultDeserializer;
 
+/**
+ * This dto holds information from a users timerSession
+ */
 @JsonDeserialize(using = TimerResultDeserializer.class)
 public class TimerResult {
 

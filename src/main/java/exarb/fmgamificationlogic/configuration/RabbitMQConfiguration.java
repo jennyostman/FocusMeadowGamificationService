@@ -19,8 +19,7 @@ import org.springframework.messaging.handler.annotation.support.DefaultMessageHa
 @Configuration
 public class RabbitMQConfiguration implements RabbitListenerConfigurer {
 
-    // Skicka:
-
+    // Sends:
     /**
      * Creates a topic exchange bean.
      * @return TopicExchange
@@ -53,9 +52,7 @@ public class RabbitMQConfiguration implements RabbitListenerConfigurer {
     }
 
 
-
-    // Ta emot:
-
+    // Receives:
     /**
      * Creates a topic exchange bean.
      * @return TopicExchange
@@ -67,15 +64,12 @@ public class RabbitMQConfiguration implements RabbitListenerConfigurer {
 
     /**
      * Creates a durable Queue for timerCount events.
-     * @param queueName
-     * @return
+     * @param timerQueue
+     * @return Queue
      */
-    // TODO: We make the Queue durable (the second true argument when creating it).
-    //  We introduced this idea before: by doing this we can process pending events
-    //  even after the broker goes down, given that they are persisted.
     @Bean
-    public Queue gamificationTimerCountQueue(@Value("${timerCount.queue}") final String queueName) {
-        return new Queue(queueName, true);
+    public Queue gamificationTimerCountQueue(@Value("${timerCount.queue}") final String timerQueue) {
+        return new Queue(timerQueue, true);
     }
 
     /**
@@ -93,7 +87,7 @@ public class RabbitMQConfiguration implements RabbitListenerConfigurer {
 
     /**
      * Creating a converter from JSON
-     * @return
+     * @return MappingJackson2MessageConverter
      */
     @Bean
     public MappingJackson2MessageConverter consumerJackson2MessageConverter() {
@@ -102,7 +96,7 @@ public class RabbitMQConfiguration implements RabbitListenerConfigurer {
 
     /**
      * Method that customizes how the message payload will be converted from serialized to a typed object.
-     * @return
+     * @return DefaultMessageHandlerMethodFactory
      */
     @Bean
     public DefaultMessageHandlerMethodFactory messageHandlerMethodFactory() {

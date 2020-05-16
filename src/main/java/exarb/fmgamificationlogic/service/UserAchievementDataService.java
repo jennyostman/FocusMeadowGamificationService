@@ -29,6 +29,11 @@ public class UserAchievementDataService {
     private final AchievementDispatcher achievementDispatcher;
 
 
+    /**
+     * Retrieves a users achievements
+     * @param userId a users id
+     * @return UserAchievementData
+     */
     public UserAchievementData getAchievementsForUser(String userId){
         Optional<UserAchievementData> savedUserAchievementData = userAchievementDataRepository.findByUserId(userId);
         if (savedUserAchievementData.isPresent()){
@@ -59,34 +64,40 @@ public class UserAchievementDataService {
         }
     }
 
-
+    /**
+     * Creates user achievement data for a new user
+     * @param timerResult holds the result from a timerSession
+     */
     private void createUserAchievementDataForNewUser(TimerResult timerResult){
         UserAchievementData userAchievementData = achievementsUtility.createUserAchievementDataForNewUser(timerResult);
         log.info("New UserAchievementData object is saved for user {}", timerResult.getUserId());
         userAchievementDataRepository.save(userAchievementData);
 
-        // TODO: rensa!
-
-        AchievementEvent achievementEvent = new AchievementEvent();
-        achievementEvent.setUserAchievementDataId(userAchievementData.getId());
-        System.out.println("userAchievementData.getId(): " + userAchievementData.getId());
-
-        // Skicka event message
-        achievementDispatcher.sendAchievementEvent(achievementEvent);
-
-
+        achievementDispatcher.sendAchievementEvent(new AchievementEvent(userAchievementData.getId()));
+        log.info("Achievement event message sent with id {}", userAchievementData.getId());
     }
 
+    /**
+     * Updates the user achievement data and sends an event to UI when a user gets a new achievement
+     * @param timerResult holds the result from a timerSession
+     * @param userGameData a users game data
+     */
     private void updateUserAchievementDataForUser(TimerResult timerResult, UserGameData userGameData){
-        Optional<UserAchievementData> savedUserAchievementData = userAchievementDataRepository.findByUserId(timerResult.getUserId());
-        if (savedUserAchievementData.isPresent()){
-            UserAchievementData updatedUserAchievementData = achievementsUtility.updateUserAchievementDataForUser(timerResult, userGameData, savedUserAchievementData.get());
-            userAchievementDataRepository.save(updatedUserAchievementData);
+        Optional<UserAchievementData> oldUserAchievementData = userAchievementDataRepository.findByUserId(timerResult.getUserId());
+
+        if (oldUserAchievementData.isPresent()){
+            int before = oldUserAchievementData.get().getAchievedAchievements().size();
+            UserAchievementData updatedUserData = achievementsUtility.updateUserAchievementDataForUser(timerResult, userGameData, oldUserAchievementData.get());
+            int after = updatedUserData.getAchievedAchievements().size();
+            if (before < after){
+                achievementDispatcher.sendAchievementEvent(new AchievementEvent(updatedUserData.getId()));
+                log.info("Achievement event message sent with id {}", updatedUserData.getId());
+            }
+            userAchievementDataRepository.save(updatedUserData);
         }
         else {
             log.info("UserAchievementData was not found for user {}", timerResult.getUserId());
             throw new AchievementException("User achievement data was not found");
         }
     }
-
 }

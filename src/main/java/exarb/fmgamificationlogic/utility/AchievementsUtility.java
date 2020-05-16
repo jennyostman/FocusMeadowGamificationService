@@ -29,19 +29,35 @@ public class AchievementsUtility {
 
 
     public UserAchievementData updateUserAchievementDataForUser(TimerResult timerResult, UserGameData userGameData,
-                                                                UserAchievementData oldUserAchievementData){
+                                                                UserAchievementData userAchievementData){
 
+        long totalTime = userAchievementData.getFocusedMinutesTotal() + timerResult.getTime();
+        userAchievementData.setFocusedMinutesTotal(totalTime);
+        userAchievementData.getTimerSessionResults().put(LocalDate.now(), timerResult.getTime());
 
-
-
-
-        // Om användaren tilldelas ett nytt achievement - skicka event message
-
+        if (checkForCoinAchievements(userGameData.getCoins()) != null){
+            userAchievementData.getAchievedAchievements().add(checkForCoinAchievements(userGameData.getCoins()));
+        }
+        if (checkForTotalTimeAchievements(userAchievementData.getFocusedMinutesTotal()) != null){
+            userAchievementData.getAchievedAchievements().add(checkForTotalTimeAchievements(userAchievementData.getFocusedMinutesTotal()));
+        }
         log.info("UserAchievementData object is updated for user {}", timerResult.getUserId());
-
-        return oldUserAchievementData;
-
+        return userAchievementData;
     }
 
+    private AchievementType checkForCoinAchievements(int coins){
+        if (coins >= 500){
+            System.out.println("CHEST_OF_SEEDS");
+            return AchievementType.CHEST_OF_SEEDS;
+        }
+        return null;
+    }
 
+    private AchievementType checkForTotalTimeAchievements(long focusedMinutesTotal){
+        if (focusedMinutesTotal >= 360){
+            System.out.println("SPROUT");
+            return AchievementType.SPROUT;
+        }
+        return null;
+    }
 }

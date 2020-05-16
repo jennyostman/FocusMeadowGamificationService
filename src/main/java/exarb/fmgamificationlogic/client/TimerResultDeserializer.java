@@ -17,7 +17,7 @@ public class TimerResultDeserializer extends JsonDeserializer<TimerResult> {
      * containing only the necessary variables.
      * @param jsonParser
      * @param deserializationContext
-     * @return
+     * @return TimerResult
      * @throws IOException
      */
     @Override
