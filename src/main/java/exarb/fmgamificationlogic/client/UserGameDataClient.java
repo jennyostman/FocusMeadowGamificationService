@@ -20,11 +20,14 @@ public class UserGameDataClient {
     }
 
 
+    /**
+     * Makes a GET call to gamelogic service to retreive a users game data for a specific id
+     * @param id id of a game data object
+     * @return UserGameData
+     */
     public UserGameData retrieveUserGameData(final String id){
         return restTemplate.getForObject(
                 gameLogicHost + "/game/" + id,
                 UserGameData.class);
     }
-
-
 }

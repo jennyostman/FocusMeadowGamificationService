@@ -16,6 +16,11 @@ import java.util.HashMap;
 @Component
 public class AchievementsUtility {
 
+    /**
+     * Creates an object to hold a new users achievement data
+     * @param timerResult holds the result from a timerSession
+     * @return UserAchievementData
+     */
     public UserAchievementData createUserAchievementDataForNewUser(TimerResult timerResult){
         UserAchievementData userAchievementData = new UserAchievementData(
                 timerResult.getUserId(),
@@ -27,7 +32,13 @@ public class AchievementsUtility {
         return userAchievementData;
     }
 
-
+    /**
+     * Checks if a user has earned a new achievement, and updates the user achievement data
+     * @param timerResult holds the result from a timerSession
+     * @param userGameData a users game data
+     * @param userAchievementData a users achievement data
+     * @return UserAchievementData
+     */
     public UserAchievementData updateUserAchievementDataForUser(TimerResult timerResult, UserGameData userGameData,
                                                                 UserAchievementData userAchievementData){
 
@@ -45,6 +56,11 @@ public class AchievementsUtility {
         return userAchievementData;
     }
 
+    /**
+     * Checks if user has earned a achievement based on coins
+     * @param coins a users earned coins
+     * @return AchievementType
+     */
     private AchievementType checkForCoinAchievements(int coins){
         if (coins >= 500){
             System.out.println("CHEST_OF_SEEDS");
@@ -53,6 +69,11 @@ public class AchievementsUtility {
         return null;
     }
 
+    /**
+     * Checks if user has earned a achievement based on focused time
+     * @param focusedMinutesTotal a total of focused minutes
+     * @return AchievementType
+     */
     private AchievementType checkForTotalTimeAchievements(long focusedMinutesTotal){
         if (focusedMinutesTotal >= 360){
             System.out.println("SPROUT");

@@ -32,7 +32,7 @@ public class RabbitMQConfiguration implements RabbitListenerConfigurer {
     /**
      * The default RabbitTemplate is overridden and replaced so
      * that it uses the JSON message converter
-     * @param connectionFactory
+     * @param connectionFactory factory for creating connections
      * @return RabbitTemplate
      */
     @Bean
@@ -64,7 +64,7 @@ public class RabbitMQConfiguration implements RabbitListenerConfigurer {
 
     /**
      * Creates a durable Queue for timerCount events.
-     * @param timerQueue
+     * @param timerQueue queue name
      * @return Queue
      */
     @Bean
@@ -74,10 +74,10 @@ public class RabbitMQConfiguration implements RabbitListenerConfigurer {
 
     /**
      * Binds the topic exchange and the queue together.
-     * @param queue
-     * @param timerCountExchange
-     * @param routingKey
-     * @return
+     * @param queue the gamificationTimerCountQueue
+     * @param timerCountExchange a topic exchange bean for the timerCountExchange
+     * @param routingKey a message attribute the exchange uses to know how to route the message to queues
+     * @return Binding
      */
     @Bean
     Binding binding(final Queue queue, final TopicExchange timerCountExchange,
@@ -107,7 +107,7 @@ public class RabbitMQConfiguration implements RabbitListenerConfigurer {
 
     /**
      * Registering a RabbitListenerEndpoint that will use a customized MessageHandlerMethodFactory
-     * @param registrar
+     * @param registrar helper bean for registering RabbitListenerEndpoint
      */
     @Override
     public void configureRabbitListeners(final RabbitListenerEndpointRegistrar registrar) {

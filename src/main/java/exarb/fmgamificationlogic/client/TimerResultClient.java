@@ -28,6 +28,4 @@ public class TimerResultClient {
                 gameLogicHost + "/result/" + id,
                 TimerResult.class);
     }
-
-
 }

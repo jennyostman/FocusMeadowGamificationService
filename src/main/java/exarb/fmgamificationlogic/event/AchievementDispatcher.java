@@ -22,7 +22,7 @@ public class AchievementDispatcher {
 
     /**
      * Converts and sends achievementEvent
-     * @param achievementEvent
+     * @param achievementEvent an achievement event object
      */
     public void sendAchievementEvent(final AchievementEvent achievementEvent) {
         rabbitTemplate.convertAndSend(achievementExchange, newAchievementRoutingKey, achievementEvent);

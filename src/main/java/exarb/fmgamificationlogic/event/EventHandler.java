@@ -31,14 +31,7 @@ public class EventHandler {
             userAchievementDataService.checkIfAchievement(event.getTimerCountSessionId(), event.getUserId());
         } catch (final Exception e) {
             log.error("Error when trying to process TimerCountWorkEvent", e);
-            // The event will not be re-queued and reprocessed repeatedly if
-            // something goes wrong.
-            // TODO: Since we don’t have anything in place to handle rejected events,
-            //  they will be simply discarded. If you want to get deeper into good practices
-            //  with RabbitMQ, you can look at how to configure a dead letter exchange and put our
-            //  failing messages there for further processing (like retrying, logging, or raising alerts).
             throw new AmqpRejectAndDontRequeueException(e);
         }
     }
-
 }

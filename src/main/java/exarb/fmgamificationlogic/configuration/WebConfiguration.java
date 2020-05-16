@@ -11,7 +11,7 @@ public class WebConfiguration implements WebMvcConfigurer {
 
     /**
      * Enables Cross-Origin Resource Sharing (CORS)
-     * @param registry
+     * @param registry class that assists with registration of CorsConfiguration mappings.
      */
     @Override
     public void addCorsMappings(final CorsRegistry registry) {

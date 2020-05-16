@@ -15,8 +15,8 @@ public class UserGameDataDeserializer extends JsonDeserializer<UserGameData> {
     /**
      * Deserializes a UserGameData object, and allows to create a new object
      * containing only the necessary variables.
-     * @param jsonParser
-     * @param deserializationContext
+     * @param jsonParser provides access to JSON data
+     * @param deserializationContext context for deserialization
      * @return UserGameData
      * @throws IOException
      */
