@@ -4,6 +4,9 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import exarb.fmgamificationlogic.client.UserGameDataDeserializer;
 import lombok.Data;
 
+/**
+ * This dto holds information from a users game data
+ */
 @Data
 @JsonDeserialize(using = UserGameDataDeserializer.class)
 public class UserGameData {

@@ -2,9 +2,10 @@ package exarb.fmgamificationlogic.model;
 
 import exarb.fmgamificationlogic.enums.AchievementType;
 import lombok.Data;
-import org.springframework.data.mongodb.core.mapping.Document;
 
-
+/**
+ * This is a model that holds all values of an achievement
+ */
 @Data
 public class Achievement {
 

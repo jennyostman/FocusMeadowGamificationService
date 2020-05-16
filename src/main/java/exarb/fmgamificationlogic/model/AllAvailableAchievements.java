@@ -6,7 +6,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Map;
 
-
+/**
+ * This is a model that holds all available achievements
+ */
 @Data
 @Document("allAvailableAchievements")
 public class AllAvailableAchievements {

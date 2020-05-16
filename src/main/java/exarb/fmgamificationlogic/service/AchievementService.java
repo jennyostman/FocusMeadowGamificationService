@@ -1,16 +1,10 @@
 package exarb.fmgamificationlogic.service;
 
-import exarb.fmgamificationlogic.client.TimerResultClient;
-import exarb.fmgamificationlogic.client.UserGameDataClient;
-import exarb.fmgamificationlogic.client.dto.TimerResult;
-import exarb.fmgamificationlogic.client.dto.UserGameData;
 import exarb.fmgamificationlogic.enums.AchievementType;
 import exarb.fmgamificationlogic.exceptions.AchievementException;
 import exarb.fmgamificationlogic.model.Achievement;
 import exarb.fmgamificationlogic.model.AllAvailableAchievements;
-import exarb.fmgamificationlogic.model.UserAchievementData;
 import exarb.fmgamificationlogic.repository.AchievementRepository;
-import exarb.fmgamificationlogic.utility.AchievementsUtility;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -24,10 +18,6 @@ import java.util.Map;
 public class AchievementService {
 
     private final AchievementRepository achievementRepository;
-    private final TimerResultClient timerResultClient;
-    private final UserGameDataClient userGameDataClient;
-    private final AchievementsUtility achievementsUtility;
-
 
     /**
      * Adds a new achievement to the map that holds all achievements
@@ -60,6 +50,4 @@ public class AchievementService {
         log.info("Error when getting all the achievements from the database");
         throw new AchievementException("Could not find all achievements");
     }
-
-
 }
