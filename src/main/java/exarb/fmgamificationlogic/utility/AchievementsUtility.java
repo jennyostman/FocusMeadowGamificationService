@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 
 @Slf4j
@@ -46,11 +47,11 @@ public class AchievementsUtility {
         userAchievementData.setFocusedMinutesTotal(totalTime);
         userAchievementData.getTimerSessionResults().put(LocalDate.now(), timerResult.getTime());
 
-        if (checkForCoinAchievements(userGameData.getCoins()) != null){
-            userAchievementData.getAchievedAchievements().add(checkForCoinAchievements(userGameData.getCoins()));
+        if (checkForCoinAchievements(userGameData.getCoins(), userAchievementData.getAchievedAchievements()) != null){
+            userAchievementData.getAchievedAchievements().add(checkForCoinAchievements(userGameData.getCoins(), userAchievementData.getAchievedAchievements()));
         }
-        if (checkForTotalTimeAchievements(userAchievementData.getFocusedMinutesTotal()) != null){
-            userAchievementData.getAchievedAchievements().add(checkForTotalTimeAchievements(userAchievementData.getFocusedMinutesTotal()));
+        if (checkForTotalTimeAchievements(userAchievementData.getFocusedMinutesTotal(), userAchievementData.getAchievedAchievements()) != null){
+            userAchievementData.getAchievedAchievements().add(checkForTotalTimeAchievements(userAchievementData.getFocusedMinutesTotal(), userAchievementData.getAchievedAchievements()));
         }
         log.info("UserAchievementData object is updated for user {}", timerResult.getUserId());
         return userAchievementData;
@@ -61,10 +62,12 @@ public class AchievementsUtility {
      * @param coins a users earned coins
      * @return AchievementType
      */
-    private AchievementType checkForCoinAchievements(int coins){
-        if (coins >= 500){
-            System.out.println("CHEST_OF_SEEDS");
-            return AchievementType.CHEST_OF_SEEDS;
+    private AchievementType checkForCoinAchievements(int coins, List<AchievementType> achievements){
+        if (!achievements.contains(AchievementType.CHEST_OF_SEEDS)){
+            if (coins >= 500){
+                System.out.println("CHEST_OF_SEEDS");
+                return AchievementType.CHEST_OF_SEEDS;
+            }
         }
         return null;
     }
@@ -74,10 +77,12 @@ public class AchievementsUtility {
      * @param focusedMinutesTotal a total of focused minutes
      * @return AchievementType
      */
-    private AchievementType checkForTotalTimeAchievements(long focusedMinutesTotal){
-        if (focusedMinutesTotal >= 360){
-            System.out.println("SPROUT");
-            return AchievementType.SPROUT;
+    private AchievementType checkForTotalTimeAchievements(long focusedMinutesTotal, List<AchievementType> achievements){
+        if (!achievements.contains(AchievementType.SPROUT)){
+            if (focusedMinutesTotal >= 360){
+                System.out.println("SPROUT");
+                return AchievementType.SPROUT;
+            }
         }
         return null;
     }
