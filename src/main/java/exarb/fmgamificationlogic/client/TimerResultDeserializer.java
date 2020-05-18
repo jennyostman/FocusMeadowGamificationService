@@ -13,10 +13,11 @@ import java.io.IOException;
 public class TimerResultDeserializer extends JsonDeserializer<TimerResult> {
 
     /**
-     * Deserializes a TimerResult object, and allows to create a new object
+     * Deserializes a TimerSession object coming from the Gamelogics service into
+     * Gamifications version of TimerResult, and allows to create a new object
      * containing only the necessary variables.
-     * @param jsonParser
-     * @param deserializationContext
+     * @param jsonParser provides access to JSON data
+     * @param deserializationContext context for deserialization
      * @return TimerResult
      * @throws IOException
      */

@@ -13,7 +13,8 @@ import java.io.IOException;
 public class UserGameDataDeserializer extends JsonDeserializer<UserGameData> {
 
     /**
-     * Deserializes a UserGameData object, and allows to create a new object
+     * Deserializes a UserGameData object coming from the Gamelogics service into
+     * Gamifications version of UserGameData, and allows to create a new object
      * containing only the necessary variables.
      * @param jsonParser provides access to JSON data
      * @param deserializationContext context for deserialization
